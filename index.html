@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recetario del Ecuador</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bevan&family=Karla:ital,wght@0,400;0,600;0,800;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --husk:#F4E7C8;
+  --husk-deep:#E8D5A8;
+  --ink:#2B1A14;
+  --achiote:#C8451F;
+  --indigo:#1D4E6B;
+  --jade:#2F6B4A;
+  --maize:#E9A81C;
+  --paper:#FBF4E4;
+
+  --display:'Bevan',Georgia,serif;
+  --body:'Karla',system-ui,sans-serif;
+  --mono:'Space Mono',ui-monospace,monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--husk);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+:focus-visible{
+  outline:3px solid var(--ink);
+  outline-offset:3px;
+}
+
+/* ---------- SIGNATURE: banda tejida ---------- */
+.faja{
+  height:14px;
+  width:100%;
+  background:
+    repeating-linear-gradient(90deg,
+      var(--achiote) 0 10px,
+      var(--ink) 10px 13px,
+      var(--maize) 13px 20px,
+      var(--ink) 20px 23px,
+      var(--indigo) 23px 33px,
+      var(--ink) 33px 36px,
+      var(--jade) 36px 43px,
+      var(--ink) 43px 46px);
+}
+.faja--costa{
+  background:
+    repeating-linear-gradient(90deg,
+      var(--indigo) 0 12px,
+      var(--ink) 12px 15px,
+      var(--maize) 15px 22px,
+      var(--ink) 22px 25px);
+}
+.faja--sierra{
+  background:
+    repeating-linear-gradient(90deg,
+      var(--achiote) 0 12px,
+      var(--ink) 12px 15px,
+      var(--jade) 15px 22px,
+      var(--ink) 22px 25px);
+}
+
+/* ---------- HERO ---------- */
+.hero{
+  padding:64px 24px 40px;
+  max-width:1160px;
+  margin:0 auto;
+}
+.eyebrow{
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--achiote);
+  margin-bottom:20px;
+}
+.hero h1{
+  font-family:var(--display);
+  font-size:clamp(48px,10vw,116px);
+  line-height:.9;
+  letter-spacing:-.02em;
+  max-width:12ch;
+}
+.hero h1 em{
+  font-style:normal;
+  color:var(--achiote);
+}
+.hero p{
+  margin-top:28px;
+  max-width:46ch;
+  font-size:19px;
+}
+
+/* ---------- CONTROLES ---------- */
+.controls{
+  max-width:1160px;
+  margin:0 auto;
+  padding:0 24px 32px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  align-items:flex-end;
+  justify-content:space-between;
+}
+.search{position:relative;flex:1 1 300px;max-width:420px}
+.search label{
+  display:block;
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.search input{
+  width:100%;
+  padding:13px 16px;
+  font-family:var(--body);
+  font-size:16px;
+  color:var(--ink);
+  background:var(--paper);
+  border:2px solid var(--ink);
+  border-radius:0;
+}
+.search input::placeholder{color:#9A8A7A}
+
+.filters{display:flex;gap:0;flex-wrap:wrap;border:2px solid var(--ink);background:var(--paper)}
+.filters button{
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  padding:13px 18px;
+  background:transparent;
+  border:0;
+  border-right:2px solid var(--ink);
+  color:var(--ink);
+  cursor:pointer;
+}
+.filters button:last-child{border-right:0}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--husk)}
+
+/* ---------- GRID ---------- */
+.grid{
+  max-width:1160px;
+  margin:0 auto;
+  padding:0 24px 80px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:24px;
+}
+
+.card{
+  background:var(--paper);
+  border:2px solid var(--ink);
+  text-align:left;
+  cursor:pointer;
+  font:inherit;
+  color:inherit;
+  display:flex;
+  flex-direction:column;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.card:hover,.card:focus-visible{
+  transform:translate(-4px,-4px);
+  box-shadow:8px 8px 0 var(--ink);
+}
+.card__body{padding:22px}
+.card__region{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--achiote);
+}
+.card__title{
+  font-family:var(--display);
+  font-size:27px;
+  line-height:1.05;
+  margin:10px 0 14px;
+}
+.card__meta{
+  display:flex;
+  gap:14px;
+  font-family:var(--mono);
+  font-size:12px;
+  color:#6B5A4C;
+  border-top:1px solid var(--husk-deep);
+  padding-top:14px;
+}
+
+.empty{
+  grid-column:1/-1;
+  border:2px dashed var(--ink);
+  padding:48px 24px;
+  text-align:center;
+}
+.empty strong{font-family:var(--display);font-size:22px;display:block;margin-bottom:8px}
+
+/* ---------- MODAL ---------- */
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(43,26,20,.72);
+  display:none;
+  align-items:flex-start;
+  justify-content:center;
+  padding:24px;
+  overflow-y:auto;
+  z-index:50;
+}
+.overlay.open{display:flex}
+
+.sheet{
+  background:var(--paper);
+  border:2px solid var(--ink);
+  max-width:760px;
+  width:100%;
+  margin:auto;
+}
+.sheet__head{padding:28px 32px 24px;position:relative}
+.sheet__region{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--achiote);
+}
+.sheet__head h2{
+  font-family:var(--display);
+  font-size:clamp(30px,6vw,46px);
+  line-height:1;
+  margin:10px 0 16px;
+  max-width:16ch;
+}
+.sheet__note{max-width:52ch;color:#5A4638}
+.close{
+  position:absolute;
+  top:20px;
+  right:20px;
+  width:40px;
+  height:40px;
+  border:2px solid var(--ink);
+  background:var(--husk);
+  font-size:20px;
+  line-height:1;
+  cursor:pointer;
+  color:var(--ink);
+}
+.close:hover{background:var(--achiote);color:var(--paper)}
+
+.sheet__cols{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);
+}
+.col{padding:28px 32px 34px}
+.col--ing{background:var(--husk);border-right:2px solid var(--ink)}
+.col h3{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+.col__hint{
+  font-size:13px;
+  color:#7A6857;
+  margin-bottom:18px;
+}
+
+.check{
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  padding:9px 0;
+  border-bottom:1px solid var(--husk-deep);
+  cursor:pointer;
+}
+.check input{
+  appearance:none;
+  flex:0 0 19px;
+  width:19px;
+  height:19px;
+  margin-top:3px;
+  border:2px solid var(--ink);
+  background:var(--paper);
+  cursor:pointer;
+}
+.check input:checked{background:var(--jade);border-color:var(--jade)}
+.check input:checked+span{text-decoration:line-through;color:#9A8A7A}
+.check span{font-size:15.5px}
+
+.step{
+  display:flex;
+  gap:16px;
+  padding:14px 0;
+  border-bottom:1px solid var(--husk-deep);
+  cursor:pointer;
+}
+.step__n{
+  flex:0 0 30px;
+  height:30px;
+  border:2px solid var(--ink);
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-family:var(--mono);
+  font-size:13px;
+  font-weight:700;
+}
+.step.done .step__n{background:var(--achiote);color:var(--paper);border-color:var(--achiote)}
+.step.done .step__t{color:#9A8A7A}
+.step__t{font-size:15.5px;padding-top:3px}
+
+footer{
+  border-top:2px solid var(--ink);
+  padding:32px 24px 48px;
+  text-align:center;
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:.08em;
+  color:#6B5A4C;
+}
+
+@media(max-width:720px){
+  .sheet__cols{grid-template-columns:1fr}
+  .col--ing{border-right:0;border-bottom:2px solid var(--ink)}
+  .hero{padding:44px 20px 30px}
+  .controls,.grid{padding-left:20px;padding-right:20px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="faja" role="presentation"></div>
+
+<header class="hero">
+  <p class="eyebrow">Ocho platos · Costa y Sierra</p>
+  <h1>Se cocina <em>por regiones</em>, no por países.</h1>
+  <p>Un recetario del Ecuador donde el mar y la montaña cocinan distinto. Marca los ingredientes mientras compras y los pasos mientras cocinas.</p>
+</header>
+
+<div class="controls">
+  <div class="search">
+    <label for="q">Buscar plato o ingrediente</label>
+    <input id="q" type="search" placeholder="encebollado, maní, plátano…" autocomplete="off">
+  </div>
+  <div class="filters" role="group" aria-label="Filtrar por región">
+    <button type="button" data-region="todas" aria-pressed="true">Todas</button>
+    <button type="button" data-region="Costa" aria-pressed="false">Costa</button>
+    <button type="button" data-region="Sierra" aria-pressed="false">Sierra</button>
+  </div>
+</div>
+
+<main class="grid" id="grid"></main>
+
+<footer>Recetario del Ecuador · <span id="count"></span></footer>
+
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<script>
+const RECETAS = [
+  {
+    nombre:"Encebollado de pescado",
+    region:"Costa",
+    provincia:"Guayas",
+    tiempo:"40 min",
+    porciones:"4 personas",
+    nota:"El desayuno de resaca por excelencia. La yuca se cocina aparte y se agrega al plato, nunca a la olla, para que no deshaga el caldo.",
+    ingredientes:["600 g de albacora o atún fresco","2 libras de yuca","2 cebollas coloradas en pluma","3 tomates","1 cdta de comino molido","1 cda de ají en polvo","Jugo de 4 limones","Cilantro fresco","Sal y pimienta"],
+    pasos:["Hierve el pescado con tomate, media cebolla, comino y sal por 15 minutos.","Retira el pescado, cuela el caldo y reserva ambos por separado.","Desmenuza el pescado en trozos gruesos, sin deshacerlo del todo.","Cocina la yuca aparte en agua con sal hasta que esté suave.","Encurte la cebolla restante en jugo de limón con sal por 10 minutos.","Devuelve el pescado al caldo colado y calienta sin hervir.","Sirve con la yuca, corona con el encurtido de cebolla y cilantro.","Acompaña con chifles, ají y más limón al gusto."]
+  },
+  {
+    nombre:"Llapingachos",
+    region:"Sierra",
+    provincia:"Tungurahua",
+    tiempo:"50 min",
+    porciones:"6 tortillas",
+    nota:"El achiote va en la masa, no en la sartén: es lo que les da el color dorado parejo que distingue a los de Ambato.",
+    ingredientes:["1 kg de papa chola","200 g de queso fresco desmenuzado","1 cebolla blanca picada fina","2 cdas de achiote en aceite","Sal y pimienta","Aceite para la plancha"],
+    pasos:["Cocina las papas con sal hasta que se deshagan al pincharlas.","Aplasta las papas en caliente hasta obtener un puré liso.","Sofríe la cebolla en el achiote hasta que esté transparente.","Mezcla el refrito con el puré y deja enfriar hasta poder manipularlo.","Forma bolas, hazles un hueco y rellena con el queso.","Cierra y aplasta con la palma hasta formar tortillas de 2 cm.","Dora en plancha caliente 4 minutos por lado, sin moverlas.","Sirve con salsa de maní, chorizo, huevo frito y ensalada."]
+  },
+  {
+    nombre:"Hornado de chancho",
+    region:"Sierra",
+    provincia:"Pichincha",
+    tiempo:"4 horas",
+    porciones:"10 personas",
+    nota:"El cuero crujiente se logra con calor alto al final, no al principio. Si lo doras primero, la carne se seca antes de cocinarse.",
+    ingredientes:["3 kg de pierna de cerdo con cuero","1 cabeza de ajo","2 cdas de comino molido","1 botella de cerveza","1 cda de achiote","Sal en grano y pimienta","Mote cocido para servir"],
+    pasos:["Haz cortes profundos en la carne sin atravesar el cuero.","Licúa el ajo, comino, achiote y media cerveza para el adobo.","Unta el adobo dentro de los cortes y deja reposar 12 horas en frío.","Hornea tapado a 160 °C durante 3 horas, bañando con cerveza cada 45 min.","Destapa y sube a 220 °C por 25 minutos para reventar el cuero.","Deja reposar 15 minutos antes de desmenuzar.","Sirve con mote, tortillas de papa y agrio de cebolla."]
+  },
+  {
+    nombre:"Ceviche de camarón",
+    region:"Costa",
+    provincia:"Manabí",
+    tiempo:"30 min",
+    porciones:"4 personas",
+    nota:"A diferencia del peruano, aquí el camarón va cocido y el caldo de la cocción es la base del jugo. No lo botes.",
+    ingredientes:["1 kg de camarón pelado","2 cebollas coloradas en pluma","4 tomates","Jugo de 8 limones","1 naranja","2 cdas de salsa de tomate","Cilantro picado","Sal y pimienta","Chifles y canguil para servir"],
+    pasos:["Cocina los camarones en agua con sal por 3 minutos exactos.","Retira y sumerge en agua con hielo para cortar la cocción.","Reserva una taza del agua de cocción y déjala enfriar.","Encurte la cebolla en jugo de limón con sal por 15 minutos.","Licúa dos tomates y cuela para obtener un jugo limpio.","Mezcla el caldo frío, jugo de tomate, limón, naranja y salsa de tomate.","Incorpora los camarones, la cebolla encurtida y el tomate en cubos.","Ajusta la sal, agrega cilantro y sirve bien frío con chifles y canguil."]
+  },
+  {
+    nombre:"Fritada",
+    region:"Sierra",
+    provincia:"Imbabura",
+    tiempo:"1 h 45 min",
+    porciones:"6 personas",
+    nota:"No se fríe en aceite: se cocina en agua hasta que se evapora y luego se dora en su propia grasa. Esa es toda la técnica.",
+    ingredientes:["1,5 kg de carne de cerdo en cubos","Jugo de 3 naranjas","1 cabeza de ajo machacada","1 cda de comino molido","1 cebolla blanca","Sal y pimienta","Agua hasta cubrir"],
+    pasos:["Coloca la carne en una paila ancha con ajo, comino, cebolla y sal.","Agrega el jugo de naranja y agua hasta cubrir apenas la carne.","Cocina a fuego medio sin tapar durante una hora.","Deja que el líquido se evapore por completo, sin revolver mucho.","Cuando aparezca la grasa, baja el fuego y deja dorar 20 minutos.","Revuelve solo al final para dorar todos los lados.","Sirve con mote, maduro frito, llapingachos y curtido."]
+  },
+  {
+    nombre:"Guatita",
+    region:"Sierra",
+    provincia:"Nacional",
+    tiempo:"2 h 30 min",
+    porciones:"6 personas",
+    nota:"La panza se limpia con limón y sal gruesa, se hierve y se bota esa primera agua. Sin ese paso, el guiso queda con sabor fuerte.",
+    ingredientes:["1 kg de panza de res limpia","250 g de maní tostado","2 tazas de leche","3 papas grandes en cubos","1 cebolla blanca","2 cdas de achiote","Comino, sal y pimienta","Cilantro y perejil"],
+    pasos:["Frota la panza con limón y sal, enjuaga y hierve 10 minutos.","Bota esa agua, enjuaga y vuelve a hervir 90 minutos hasta que esté suave.","Corta la panza en cuadros de 2 cm.","Licúa el maní con la leche hasta obtener una crema sin grumos.","Sofríe cebolla y ajo en achiote con comino.","Agrega la crema de maní y cocina 10 minutos revolviendo.","Incorpora la panza y las papas, cocina hasta que las papas estén suaves.","Sirve con arroz blanco, aguacate y cilantro fresco."]
+  },
+  {
+    nombre:"Humitas",
+    region:"Sierra",
+    provincia:"Azuay",
+    tiempo:"1 h 10 min",
+    porciones:"12 humitas",
+    nota:"El choclo tiene que ser tierno pero no lechoso. Si la masa queda muy líquida, agrega una cucharada de harina de maíz, nunca agua.",
+    ingredientes:["12 choclos tiernos","250 g de queso fresco","150 g de mantequilla","3 huevos","1 cebolla blanca picada","1 cdta de polvo de hornear","Sal y pimienta","Hojas de choclo reservadas"],
+    pasos:["Desgrana los choclos y guarda las hojas más grandes y limpias.","Muele el grano en molino o licúa con poco líquido hasta hacer masa.","Bate la mantequilla con los huevos hasta que quede cremosa.","Sofríe la cebolla y agrégala a la masa junto al queso desmenuzado.","Une todo con el polvo de hornear, sal y pimienta.","Arma cada humita con dos hojas cruzadas y una cucharada colmada.","Dobla los extremos hacia adentro y amarra con una tira de hoja.","Cocina al vapor 45 minutos, paradas y sin que las cubra el agua."]
+  },
+  {
+    nombre:"Pan de yuca",
+    region:"Costa",
+    provincia:"Nacional",
+    tiempo:"35 min",
+    porciones:"18 unidades",
+    nota:"Se come caliente o no se come. Fuera del horno tienen unos 10 minutos antes de volverse duros.",
+    ingredientes:["500 g de almidón de yuca","500 g de queso fresco rallado","2 huevos","80 g de mantequilla suave","1 cdta de polvo de hornear","1 cdta de azúcar","Leche solo si hace falta"],
+    pasos:["Precalienta el horno a 200 °C.","Mezcla el almidón con el polvo de hornear y el azúcar.","Integra el queso rallado con las manos hasta que se vea arenoso.","Agrega la mantequilla y los huevos, uno a la vez.","Amasa hasta formar una masa que se una sin pegarse.","Si se desmorona, agrega leche por cucharadas hasta que ligue.","Forma bolitas de 4 cm y colócalas separadas en la bandeja.","Hornea 15 a 18 minutos hasta que se inflen y doren apenas."]
+  }
+];
+
+const grid = document.getElementById('grid');
+const overlay = document.getElementById('overlay');
+const sheet = document.getElementById('sheet');
+const qInput = document.getElementById('q');
+const countEl = document.getElementById('count');
+
+let region = 'todas';
+let query = '';
+let lastFocused = null;
+
+const slug = r => r === 'Costa' ? 'costa' : 'sierra';
+
+function visibles(){
+  const q = query.trim().toLowerCase();
+  return RECETAS.filter(r => {
+    const okRegion = region === 'todas' || r.region === region;
+    if(!okRegion) return false;
+    if(!q) return true;
+    return r.nombre.toLowerCase().includes(q)
+      || r.provincia.toLowerCase().includes(q)
+      || r.ingredientes.some(i => i.toLowerCase().includes(q));
+  });
+}
+
+function render(){
+  const list = visibles();
+  countEl.textContent = list.length + (list.length === 1 ? ' receta' : ' recetas');
+
+  if(!list.length){
+    grid.innerHTML = `<div class="empty">
+      <strong>Nada con ese nombre</strong>
+      Prueba con un ingrediente como maní, yuca o choclo, o quita el filtro de región.
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = list.map(r => `
+    <button class="card" type="button" data-nombre="${r.nombre}">
+      <span class="faja faja--${slug(r.region)}" aria-hidden="true"></span>
+      <span class="card__body">
+        <span class="card__region">${r.region} · ${r.provincia}</span>
+        <span class="card__title">${r.nombre}</span>
+        <span class="card__meta">
+          <span>${r.tiempo}</span>
+          <span>${r.porciones}</span>
+        </span>
+      </span>
+    </button>
+  `).join('');
+}
+
+function abrir(nombre){
+  const r = RECETAS.find(x => x.nombre === nombre);
+  if(!r) return;
+  lastFocused = document.activeElement;
+
+  sheet.innerHTML = `
+    <div class="faja faja--${slug(r.region)}" aria-hidden="true"></div>
+    <div class="sheet__head">
+      <p class="sheet__region">${r.region} · ${r.provincia} · ${r.tiempo} · ${r.porciones}</p>
+      <h2 id="sheetTitle">${r.nombre}</h2>
+      <p class="sheet__note">${r.nota}</p>
+      <button class="close" type="button" aria-label="Cerrar receta">&times;</button>
+    </div>
+    <div class="sheet__cols">
+      <div class="col col--ing">
+        <h3>Ingredientes</h3>
+        <p class="col__hint">Marca lo que ya tienes.</p>
+        ${r.ingredientes.map((i,n) => `
+          <label class="check">
+            <input type="checkbox" id="ing${n}">
+            <span>${i}</span>
+          </label>`).join('')}
+      </div>
+      <div class="col">
+        <h3>Preparación</h3>
+        <p class="col__hint">Toca un paso para tacharlo mientras cocinas.</p>
+        ${r.pasos.map((p,n) => `
+          <div class="step" role="button" tabindex="0">
+            <span class="step__n">${n+1}</span>
+            <span class="step__t">${p}</span>
+          </div>`).join('')}
+      </div>
+    </div>`;
+
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  sheet.querySelector('.close').focus();
+}
+
+function cerrar(){
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+  sheet.innerHTML = '';
+  if(lastFocused) lastFocused.focus();
+}
+
+grid.addEventListener('click', e => {
+  const card = e.target.closest('.card');
+  if(card) abrir(card.dataset.nombre);
+});
+
+sheet.addEventListener('click', e => {
+  if(e.target.closest('.close')) return cerrar();
+  const step = e.target.closest('.step');
+  if(step) step.classList.toggle('done');
+});
+
+sheet.addEventListener('keydown', e => {
+  const step = e.target.closest('.step');
+  if(step && (e.key === 'Enter' || e.key === ' ')){
+    e.preventDefault();
+    step.classList.toggle('done');
+  }
+});
+
+overlay.addEventListener('click', e => {
+  if(e.target === overlay) cerrar();
+});
+
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape' && overlay.classList.contains('open')) cerrar();
+});
+
+document.querySelectorAll('.filters button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    region = btn.dataset.region;
+    document.querySelectorAll('.filters button').forEach(b =>
+      b.setAttribute('aria-pressed', String(b === btn)));
+    render();
+  });
+});
+
+qInput.addEventListener('input', e => {
+  query = e.target.value;
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
